@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { headers } from 'next/headers'
 import { v4 } from 'uuid'
-import { tr } from 'zod/v4/locales'
+
 
 export const hasEmail = async (email: string) => {
     const user = await prisma.user.findUnique({
