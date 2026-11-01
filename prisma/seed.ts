@@ -7,43 +7,55 @@ async function main() {
             id: 1,
             name: 'Calabresa com Cebola',
             price: 42.9,
-            image: 'calabresa.jpg',
-            ingredients: 'Calabresa, cebola, mussarela, molho de tomate'
+            image: 'calabresa.png',
+            ingredients: 'Calabresa, cebola, mussarela, molho de tomate',
+            category: 'Tradicionais',
+            vegetarian: false,
         },
         {
             id: 2,
             name: 'Margherita',
             price: 39.9,
-            image: 'margherita.jpg',
-            ingredients: 'Mussarela, tomate, manjericão, molho de tomate'
+            image: 'margherita.png',
+            ingredients: 'Mussarela, tomate, manjericão, molho de tomate',
+            category: 'Vegetarianas',
+            vegetarian: true,
         },
         {
             id: 3,
             name: 'Quatro Queijos',
             price: 47.5,
-            image: 'quatro-queijos.jpg',
-            ingredients: 'Mussarela, parmesão, gorgonzola, provolone, molho de tomate'
+            image: 'quatro-queijos.png',
+            ingredients: 'Mussarela, parmesão, gorgonzola, provolone, molho de tomate',
+            category: 'Especiais',
+            vegetarian: true,
         },
         {
             id: 4,
             name: 'Pepperoni',
             price: 44.9,
-            image: 'pepperoni.jpg',
-            ingredients: 'Pepperoni, mussarela, molho de tomate'
+            image: 'pepperoni.png',
+            ingredients: 'Pepperoni, mussarela, molho de tomate',
+            category: 'Tradicionais',
+            vegetarian: false,
         },
         {
             id: 5,
             name: 'Portuguesa',
             price: 45.0,
-            image: 'portuguesa.jpg',
-            ingredients: 'Presunto, ovo, cebola, azeitona, mussarela, molho de tomate'
+            image: 'portuguesa.png',
+            ingredients: 'Presunto, ovo, cebola, azeitona, mussarela, molho de tomate',
+            category: 'Tradicionais',
+            vegetarian: false,
         },
         {
             id: 6,
             name: 'Vegetariana',
             price: 41.5,
-            image: 'vegetariana.jpg',
-            ingredients: 'Pimentão, cebola, tomate, champignon, milho, mussarela, molho de tomate'
+            image: 'vegetariana.png',
+            ingredients: 'Pimentão, cebola, tomate, champignon, milho, mussarela, molho de tomate',
+            category: 'Vegetarianas',
+            vegetarian: true,
         }
     ];
 
@@ -51,12 +63,18 @@ async function main() {
     for (let pizza of pizzas) {
         await prisma.product.upsert({
             where: { id: pizza.id },
-            update: {},
+            update: {
+                category: pizza.category,
+                vegetarian: pizza.vegetarian,
+                image: pizza.image,
+            },
             create: {
                 name: pizza.name,
                 price: pizza.price,
                 image: pizza.image,
-                ingredients: pizza.ingredients
+                ingredients: pizza.ingredients,
+                category: pizza.category,
+                vegetarian: pizza.vegetarian
             }
         });
     }

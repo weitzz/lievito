@@ -39,6 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
+src/docs
 /src/generated/prisma
 FEATURES.md
+src/generated/prisma
+src/docs/todo.md

@@ -1,20 +1,44 @@
-import React from 'react'
 import SearchInput from '../search/searchInput'
-import { api } from '@/lib/axios'
 import PizzaList from './pizzaList'
+import { getAllProducts } from '@/services/productService'
+import { parseProductFilters } from '@/lib/product-filters'
+import type { SearchParams } from '../search/searchInput'
+import type { ProductCardData } from '@/types/product-card'
 
+type Props = {
+    searchParams: SearchParams
+}
 
-const Menu = async () => {
-    const pizzaRequest = await api.get('/pizzas');
-    const pizzas = pizzaRequest.data ?? [];
+const Menu = async ({ searchParams }: Props) => {
+    const filters = parseProductFilters(searchParams)
+    const products = await getAllProducts(filters)
+    const pizzas: ProductCardData[] = products.map(pizza => ({
+        id: pizza.id,
+        name: pizza.name,
+        image: `/pizzas/${pizza.image}`,
+        price: pizza.price.toString(),
+        ingredients: pizza.ingredients,
+        category: pizza.category,
+        vegetarian: pizza.vegetarian,
+        salesCount: pizza.salesCount,
+        isTopSeller: pizza.isTopSeller,
+    }))
+
     return (
         <>
-            <section className="container mx-auto px-4 py-10 text-center">
-                <SearchInput />
-                <h1 className="text-4xl text-center mb-4 mt-4 font-caveat">Cardápio</h1>
-                <p className="text-gray-600 mb-6">Escolha sua pizza favorita e faça seu pedido!</p>
+            <section id="cardapio" className="scroll-mt-24 border-y border-border bg-card px-4 py-16 text-center md:py-20">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">Pizzas feitas para compartilhar</p>
+                <h1 className="mb-3 mt-2 font-serif text-4xl font-bold text-primary md:text-5xl">Nosso cardápio</h1>
+                <p className="mb-7 text-muted-foreground">Escolha um sabor, personalize e aproveite.</p>
+                <SearchInput searchParams={searchParams} />
             </section>
-            <PizzaList pizzas={pizzas} />
+            {pizzas.length > 0 ? (
+                <PizzaList pizzas={pizzas} />
+            ) : (
+                <p className="container mx-auto px-4 py-12 text-center text-muted-foreground">
+                    Nenhuma pizza encontrada com esses filtros.
+                </p>
+            )}
         </>
     )
 }

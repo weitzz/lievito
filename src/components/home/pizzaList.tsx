@@ -1,18 +1,18 @@
 'use client'
-import { Product } from "@/generated/prisma"
 import PizzaItem from "./pizzaItem"
 import { useProducstStore } from "@/stores/productStore"
 import { useEffect } from "react"
+import type { ProductCardData } from "@/types/product-card"
 
 type PizzaProps = {
-  pizzas: Product[]
+  pizzas: ProductCardData[]
 }
 const PizzaList = ({ pizzas }: PizzaProps) => {
-  const products = useProducstStore()
-  useEffect(() => products.setProducts(pizzas), [])
+  const setProducts = useProducstStore(state => state.setProducts)
+  useEffect(() => setProducts(pizzas), [pizzas, setProducts])
   return (
-    <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      {pizzas.map((pizza: Product) => (
+    <section className="mx-auto grid max-w-5xl grid-cols-1 gap-6 px-4 pt-10 pb-20 sm:grid-cols-2">
+      {pizzas.map(pizza => (
         <PizzaItem
           key={pizza.id}
           data={pizza}

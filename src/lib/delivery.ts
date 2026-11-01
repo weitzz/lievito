@@ -1,0 +1,2 @@
+export const DELIVERY_FEE_IN_CENTS = 1000
+export const MINIMUM_DELIVERY_IN_CENTS = 5000

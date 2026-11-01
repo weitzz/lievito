@@ -20,9 +20,15 @@ model Product {
   image         String          @default("default.png")
   price         Decimal         @db.Money()
   ingredients   String?
+  category      String          @default("Tradicionais")
+  vegetarian    Boolean         @default(false)
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   orderProducts OrderProducts[]
+
+  @@index([category])
+  @@index([vegetarian])
+  @@index([price])
 }
 
 model User {
@@ -46,6 +52,8 @@ model Order {
   subtotal      Decimal
   user          User            @relation(fields: [userId], references: [id])
   orderProducts OrderProducts[]
+
+  @@index([status])
 }
 
 enum OrderStatus {
@@ -58,11 +66,12 @@ enum OrderStatus {
 }
 
 model OrderProducts {
-  id        Int     @id @default(autoincrement())
-  orderId   Int
-  productId Int
-  quantity  Int
-  price     Decimal
-  order     Order   @relation(fields: [orderId], references: [id])
-  product   Product @relation(fields: [productId], references: [id])
+  id            Int     @id @default(autoincrement())
+  orderId       Int
+  productId     Int
+  quantity      Int
+  price         Decimal
+  customization String?
+  order         Order   @relation(fields: [orderId], references: [id])
+  product       Product @relation(fields: [productId], references: [id])
 }

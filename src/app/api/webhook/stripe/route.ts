@@ -1,4 +1,6 @@
+import Stripe from "stripe"
 import { stripe } from "@/lib/stripe";
+import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -21,22 +23,13 @@ export async function POST(request: Request) {
         ]
 
         if (eventTypes.includes(event.type)) {
-            const { metadata, payment_status } = event.type as any;
-            if (payment_status === 'paid') {
-                const orderId = parseInt(metadata.order_id)
-                if (orderId) {
-                    const order = await prisma.order.findUnique({
-                        where: { id: orderId },
-
-                    })
-                    if (order) {
-                        await prisma.order.update({
-                            where: { id: orderId },
-                            data: { status: 'PAID' }
-                        })
-                    }
-
-                }
+            const session = event.data.object as Stripe.Checkout.Session
+            const orderId = Number(session.metadata?.order_id)
+            if (session.payment_status === "paid" && Number.isInteger(orderId) && orderId > 0) {
+                await prisma.order.updateMany({
+                    where: { id: orderId },
+                    data: { status: "PAID" },
+                })
             }
         }
 
