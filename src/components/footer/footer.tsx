@@ -1,37 +1,25 @@
-import { Github, Linkedin } from 'lucide-react';
-import Link from 'next/link';
+import Link from "next/link"
+import LievitoLogo from "../layout/lievitoLogo"
 
-const Footer = () => {
-    return (
-        <footer className="bg-secondary text-primary py-4">
-            <div className="container mx-auto flex flex-col items-center justify-between gap-4 text-center font-semibold sm:flex-row sm:text-left">
-                <p className="text-sm">
-                    &copy; {new Date().getFullYear()} TW-Pizzas. Todos os direitos
-                    reservados.
+const Footer = () => (
+    <footer id="contato" className="scroll-mt-20 border-t border-primary/20 bg-primary text-primary-foreground">
+        <div className="container mx-auto grid gap-8 px-4 py-10 sm:grid-cols-2 sm:items-center">
+            <div className="flex flex-col items-center gap-4 sm:items-start">
+                <LievitoLogo className="w-44 rounded-md" />
+                <p className="max-w-sm text-center text-sm text-primary-foreground/75 sm:text-left">
+                    Pizzeria artigianale. Uma boa pizza reúne todo mundo à mesa.
                 </p>
-                <div className="flex gap-4">
-                    <Link
-                        href="https://github.com/weitzz"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 hover:text-red-500 transition"
-                    >
-                        <Github className="h-5 w-5" />
-                        <span>GitHub</span>
-                    </Link>
-                    <Link
-                        href="https://www.linkedin.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 hover:text-red-500 transition"
-                    >
-                        <Linkedin className="h-5 w-5" />
-                        <span>LinkedIn</span>
-                    </Link>
-                </div>
             </div>
-        </footer>
-    )
-}
+            <nav aria-label="Links do rodapé" className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm sm:justify-end">
+                <Link href="/#home" className="transition-colors hover:text-accent">Início</Link>
+                <Link href="/#cardapio" className="transition-colors hover:text-accent">Cardápio</Link>
+                <Link href="/#sobre" className="transition-colors hover:text-accent">Sobre nós</Link>
+            </nav>
+        </div>
+        <div className="border-t border-primary-foreground/20 px-4 py-4 text-center text-xs text-primary-foreground/70">
+            © {new Date().getFullYear()} Lievito Pizzeria Artigianale. Todos os direitos reservados.
+        </div>
+    </footer>
+)
 
 export default Footer

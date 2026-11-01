@@ -10,9 +10,9 @@ export const CustomInput = (props: PropsInput) => {
     const error = checkFieldError(props.name, props.errors)
     return (
         <>
-            <Input {...props} className={`${error ? " border border-red-700" : ""}`} />
+            <Input {...props} className={`${error ? " border border-destructive" : ""}`} />
             {error &&
-                <span className='mt-1 text-sm text-red-800'>{error}</span>
+                <span className='mt-1 text-sm text-destructive'>{error}</span>
             }
         </>
     )

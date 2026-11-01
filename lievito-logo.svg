@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+  <title id="title">Lievito Pizzeria Artigianale</title>
+  <desc id="desc">Logotipo da Lievito, com um forno em arco e uma pequena chama acima do nome.</desc>
+  <rect width="900" height="520" fill="#F5EBDD"/>
+  <g fill="none" stroke="#571F27" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M337 176 A113 113 0 0 1 563 176"/>
+    <path d="M358 176 A92 92 0 0 1 542 176" stroke="#77764B" stroke-width="5"/>
+    <path d="M374 176 V157 M405 176 V133 M450 176 V119 M495 176 V133 M526 176 V157" stroke-width="5"/>
+    <path d="M322 177 H578" stroke-width="7"/>
+  </g>
+  <path d="M450 77 C425 105 434 125 450 137 C466 125 475 105 450 77Z" fill="#C56A32"/>
+  <path d="M450 103 C441 116 445 125 450 129 C458 121 458 113 450 103Z" fill="#F5EBDD"/>
+  <path d="M283 177 H337 M563 177 H617" stroke="#77764B" stroke-width="7" stroke-linecap="round"/>
+  <text x="450" y="300" text-anchor="middle" fill="#571F27"
+        font-family="Georgia, 'Times New Roman', serif" font-size="112" font-weight="bold"
+        letter-spacing="3">LIEVITO</text>
+  <path d="M267 331 H633" stroke="#C99B62" stroke-width="3"/>
+  <text x="450" y="382" text-anchor="middle" fill="#571F27"
+        font-family="Arial, Helvetica, sans-serif" font-size="27" letter-spacing="10">PIZZERIA ARTIGIANALE</text>
+  <text x="450" y="444" text-anchor="middle" fill="#77764B"
+        font-family="Georgia, 'Times New Roman', serif" font-size="25" font-style="italic"
+        letter-spacing="1">L'arte della vera pizza.</text>
+</svg>

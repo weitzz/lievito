@@ -42,3 +42,5 @@ next-env.d.ts
 
 /src/generated/prisma
 FEATURES.md
+src/generated/prisma
+src/docs/todo.md
