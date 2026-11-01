@@ -1,106 +1,124 @@
-# 🍕 TW-Pizzas – Projeto de Pizzaria
+# Lievito — Pizzeria Artigianale
 
-Projeto de pizzaria desenvolvido com Next.js, integrando pagamento via Strapi, autenticação e criptografia. Banco de dados PostgreSQL gerenciado com Prisma, rodando em Docker.
+Aplicação de e-commerce para uma pizzaria artesanal italiana. O projeto reúne um cardápio personalizável, carrinho persistente, autenticação de clientes, acompanhamento de pedidos e checkout com Stripe.
 
----
-## 🛠 Tecnologias Utilizadas
+## Telas
 
-- **Next.js 15** – Framework React moderno para Server Components e Server Actions.
+As capturas abaixo foram feitas na versão atual do projeto, em desktop. O carrinho e a personalização aparecem como painéis sobre o cardápio.
 
-- **Tailwind CSS** – Framework CSS utilitário para estilização rápida.
+### Página inicial
 
-- **ShadCN/UI** – Biblioteca de componentes UI modernos.
+<p align="center"><img src="docs/screenshots/home.png" width="100%" alt="Página inicial da Lievito" /></p>
 
-- **Zustand** – Gerenciamento de estado leve para React.
-- **Prisma** – ORM para PostgreSQL.
+### Cardápio
 
-- **PostgreSQL** – Banco de dados relacional, rodando via **Docker**.
+<p align="center"><img src="docs/screenshots/cardapio.png" width="100%" alt="Cardápio com filtros e pizzas" /></p>
 
-- **Strapi** – Backend headless CMS, usado para integração de pagamento.
+### Personalização da pizza
 
-- **Autenticação & Bcryptjs** – Registro, login e criptografia de senhas.
+<p align="center"><img src="docs/screenshots/personalizacao.png" width="100%" alt="Personalização de tamanho, borda e ingredientes" /></p>
 
-- **Axios** – Chamadas HTTP para APIs externas (Strapi, validações, etc).
+### Carrinho
 
----
-## ⚡ Funcionalidades
+<p align="center"><img src="docs/screenshots/carrinho.png" width="100%" alt="Carrinho com subtotal, entrega e total" /></p>
 
-✅ Cadastro e login de usuários com criptografia de senha (bcryptjs).
+### Acompanhamento de pedidos
 
-✅ Autenticação com tokens UUID salvos no banco.
+<p align="center"><img src="docs/screenshots/pedidos.png" width="100%" alt="Página de acompanhamento de pedidos" /></p>
 
-✅ Modal de login/cadastro estilizado com ShadCN/UI.
+## Funcionalidades
 
-✅ Validação de formulários com Zod.
+- Busca de pizzas por nome e filtros por categoria, opção vegetariana e faixa de preço.
+- Ordenação por menor preço, maior preço e popularidade. Os filtros são aplicados no servidor com Prisma.
+- Personalização do tamanho, tipo de borda, ingredientes extras e ingredientes removidos, com preço atualizado na tela.
+- Carrinho com alteração de quantidades, exclusão de itens, limpeza, subtotal, frete e valor mínimo para entrega.
+- Persistência do carrinho no navegador e indicador de itens no cabeçalho.
+- Cadastro e login de clientes.
+- Checkout com Stripe e atualização do status do pedido via webhook.
+- Página para acompanhar o histórico e as etapas dos pedidos.
 
-✅ Integração com Strapi para processar pagamentos.
+## Tecnologias
 
-✅ Persistência de dados com PostgreSQL + Prisma.
+- Next.js 15 e React 19 com TypeScript
+- Tailwind CSS 4 e componentes Radix UI
+- Prisma ORM e PostgreSQL
+- Zustand para o estado do carrinho
+- Stripe para pagamento
+- Zod para validação de dados
 
+## Como executar
 
+### Pré-requisitos
 
-![Hero](image-3.png)
+- Node.js 20 ou superior
+- npm
+- Docker com Docker Compose
+- Chaves de teste da Stripe para experimentar o checkout
 
+### Instalação
 
-![Cardápio](image-4.png)
+1. Clone o repositório e entre na pasta:
 
+   ```bash
+   git clone https://github.com/weitzz/tw-pizza.git
+   cd tw-pizza
+   ```
 
-![carrinho](image-5.png)
+2. Instale as dependências e crie o arquivo local de ambiente:
 
+   ```bash
+   npm install
+   cp example.env .env
+   ```
 
-![tela finalizar compra com stripe](image-2.png)
----
+3. Preencha o `.env` com os dados locais. O arquivo `.env` não deve ser enviado ao Git:
 
-### 🚀 Como Rodar
+   ```dotenv
+   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/pizzariaDB?schema=public"
+   NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+   STRIPE_SECRET_KEY="sk_test_sua_chave_secreta"
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_sua_chave_publicavel"
+   STRIPE_WEBHOOK_KEY="whsec_seu_segredo_de_webhook"
+   ```
 
-1. Clone o projeto:
+4. Inicie o PostgreSQL, aplique as migrations e carregue as pizzas de exemplo:
+
+   ```bash
+   docker compose up -d postgres
+   npx prisma migrate dev
+   npx prisma db seed
+   ```
+
+5. Inicie o servidor de desenvolvimento:
+
+   ```bash
+   npm run dev
+   ```
+
+6. Acesse [http://localhost:3000](http://localhost:3000).
+
+### Webhook local da Stripe
+
+Para receber atualizações de pagamento durante o desenvolvimento, instale a Stripe CLI e encaminhe os eventos para a aplicação:
+
+```bash
+stripe listen --forward-to localhost:3000/api/webhook/stripe
 ```
- git clone https://github.com/seu-usuario/tw-pizzas.git
-cd tw-pizzas
-```
 
-2. Instale as dependências:
-```
- npm install
-```
+Configure `STRIPE_WEBHOOK_KEY` com o segredo (`whsec_...`) exibido pela CLI.
 
-3. Suba o banco com Docker:
-```
- docker compose up -d
-```
-4. Configure as variáveis de ambiente:
-```
-DATABASE_URL=postgresql://user:password@localhost:5432/tw-pizzas
-NEXT_PUBLIC_STRAPI_URL=https://seu-strapi.com
-```
+## Rotas principais
 
-5. Rode as migrations:
-```
- npx prisma migrate dev
-```
+| Rota | Descrição |
+| --- | --- |
+| `/` | Página inicial, cardápio e filtros |
+| `/pedidos` | Histórico e acompanhamento de pedidos do cliente autenticado |
+| `/success?session_id=...` | Confirmação de pagamento após o checkout |
 
-6. Execute o seed para popular o banco:
+## Comandos úteis
+
+```bash
+npm run dev       # servidor de desenvolvimento
+npm run lint      # análise estática
+npx prisma studio # interface local para consultar o banco
 ```
- npx prisma db seed
-```
-
-7. Inicie o projeto:
-```
- npm run dev
-```
-8. Abra no navegador:
-```
- http://localhost:3000
-```
-
-## 🔒 Segurança
-
-- Senhas criptografadas com bcryptjs
-
-- Autenticação baseada em UUID tokens persistidos no banco
-
-- Banco rodando em container Docker isolado
-
-## 📌 Licença
-
-Este projeto está sob a Licença MIT
