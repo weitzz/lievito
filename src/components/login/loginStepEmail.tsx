@@ -5,6 +5,7 @@ import { CustomInput } from "../layout/customInput"
 import { Button } from "../ui/button"
 import { api } from "@/lib/axios"
 import { validateEmailSchema } from "@/lib/validations"
+import type { FieldErrors } from "@/lib/utils"
 
 type Props = {
     onValidate: (hasEmail: boolean, email: string) => void
@@ -12,7 +13,7 @@ type Props = {
 
 
 export const LoginStepEmail = ({ onValidate }: Props) => {
-    const [errors, setErrors] = useState<any>(null)
+    const [errors, setErrors] = useState<FieldErrors>(null)
     const [loading, setLoading] = useState(false)
     const [emailField, setEmailField] = useState('')
 
@@ -35,7 +36,7 @@ export const LoginStepEmail = ({ onValidate }: Props) => {
                 emailReq.data.exists ? true : false,
                 validData.data.email
             )
-        } catch (error) {
+        } catch {
             setLoading(false)
         }
 

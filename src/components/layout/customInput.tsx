@@ -1,9 +1,9 @@
 import { ComponentProps } from 'react'
 import { Input } from '../ui/input'
-import { checkFieldError } from '@/lib/utils'
+import { checkFieldError, type FieldErrors } from '@/lib/utils'
 type PropsInput = ComponentProps<"input"> & {
     name: string
-    errors: any
+    errors: FieldErrors
 }
 
 export const CustomInput = (props: PropsInput) => {

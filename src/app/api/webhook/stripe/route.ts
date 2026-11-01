@@ -33,9 +33,10 @@ export async function POST(request: Request) {
             }
         }
 
-    } catch (error: any) {
-        console.error(error.message)
-        return NextResponse.json({ error: `Webhook error: ${error.message}` }, { status: 400 })
+    } catch (error) {
+        const message = error instanceof Error ? error.message : "Erro desconhecido no webhook"
+        console.error(error)
+        return NextResponse.json({ error: `Webhook error: ${message}` }, { status: 400 })
     }
 
     return NextResponse.json({})

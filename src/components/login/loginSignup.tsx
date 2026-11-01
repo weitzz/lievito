@@ -6,6 +6,7 @@ import { registerSchema } from '@/lib/validations'
 import { api } from "@/lib/axios"
 import { CustomInput } from "../layout/customInput"
 import { Button } from "../ui/button"
+import type { FieldErrors } from "@/lib/utils"
 type Props = {
     email: string
 
@@ -13,7 +14,7 @@ type Props = {
 
 export const LoginSignup = ({ email }: Props) => {
     const auth = useAuthStore()
-    const [errors, setErrors] = useState<any>(null)
+    const [errors, setErrors] = useState<FieldErrors>(null)
     const [loading, setLoading] = useState(false)
     const [nameField, setNameField] = useState('')
     const [emailField, setEmailField] = useState(email)
@@ -48,7 +49,7 @@ export const LoginSignup = ({ email }: Props) => {
                 auth.setOpen(false)
             }
 
-        } catch (error) {
+        } catch {
             setLoading(false)
         }
 

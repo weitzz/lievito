@@ -14,15 +14,17 @@ type Steps = "EMAIL" | "SIGNUP" | "SIGNIN"
 
 
 export const LoginDialog = () => {
-    const auth = useAuthStore()
+    const open = useAuthStore(state => state.open)
+    const setOpen = useAuthStore(state => state.setOpen)
+    const setToken = useAuthStore(state => state.setToken)
     const [step, setStep] = useState<Steps>('EMAIL')
     const [emailField, setEmailField] = useState('')
 
 
     useEffect(() => {
         const token = getCookie('token')
-        if (token) auth.setToken(token)
-    }, [])
+        if (token) setToken(token)
+    }, [setToken])
 
     const handleStepEmail = (hasEmail: boolean, email: string) => {
         setEmailField(email)
@@ -33,7 +35,7 @@ export const LoginDialog = () => {
         }
     }
     return (
-        <Dialog open={auth.open} onOpenChange={open => auth.setOpen(open)}>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle className="flex  items-center gap-2">

@@ -5,6 +5,7 @@ import { CustomInput } from '../layout/customInput'
 import { loginSchema } from '@/lib/validations'
 import { api } from '@/lib/axios'
 import { Button } from '../ui/button'
+import type { FieldErrors } from '@/lib/utils'
 
 type Props = {
     email: string
@@ -14,7 +15,7 @@ type Props = {
 
 export const LoginSignIn = ({ email }: Props) => {
     const auth = useAuthStore()
-    const [errors, setErrors] = useState<any>(null)
+    const [errors, setErrors] = useState<FieldErrors>(null)
     const [loading, setLoading] = useState(false)
     const [emailField, setEmailField] = useState(email)
     const [passwordField, setPasswordField] = useState('')
@@ -46,7 +47,7 @@ export const LoginSignIn = ({ email }: Props) => {
                 auth.setOpen(false)
             }
 
-        } catch (error) {
+        } catch {
             setLoading(false)
         }
 

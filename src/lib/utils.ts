@@ -11,8 +11,12 @@ export function formatPrice(price: number | string | Prisma.Decimal) {
     { style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-export function checkFieldError(fieldName: string, errors: any) {
-  if (errors === null) return false
-  if (!errors[fieldName]) return false
-  return errors[fieldName][0]
+export type FieldErrors = object | null
+
+export function checkFieldError(fieldName: string, errors: FieldErrors): string | false {
+  if (!errors || !(fieldName in errors)) return false
+  const fieldErrors = (errors as Record<string, unknown>)[fieldName]
+  return Array.isArray(fieldErrors) && typeof fieldErrors[0] === "string"
+    ? fieldErrors[0]
+    : false
 }

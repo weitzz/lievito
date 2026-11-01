@@ -36,7 +36,7 @@ export const createUser = async (name: string, email: string, password: string) 
         return {
             id: user.id, name: user.name, email: user.name
         }
-    } catch (error) {
+    } catch {
         return null
     }
 }

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     }
     if (!order) return NextResponse.json({ error: "Itens ou opções inválidas" }, { status: 400 })
     const paymentItems = []
-    for (let item of order.orderProducts) {
+    for (const item of order.orderProducts) {
         paymentItems.push({
             price_data: {
                 currency: "BRL", unit_amount: Math.round(Number(item.price) * 100), product_data: {
